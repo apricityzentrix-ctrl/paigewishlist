@@ -1,27 +1,26 @@
-<!DOCTYPE html>
-<html>
 
-    <script>
-  window.va = window.va || function () {
-    (window.vaq = window.vaq || []).push(arguments);
-  };
+<button id="analytics-consent">
+  Accept analytics and continue
+</button>
+
+<script>
+document.getElementById("analytics-consent")
+  .addEventListener("click", async () => {
+    const button = document.getElementById("analytics-consent");
+
+    button.disabled = true;
+
+    try {
+      const response = await fetch("/api/visit", {
+        method: "POST"
+      });
+
+      if (!response.ok) throw new Error("Request failed");
+
+      button.textContent = "Analytics accepted!";
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "Try again";
+    }
+  });
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
-
-<head>
-    <title> Hi guys thank you for your IP </title>
-    <script>
-        fetch("https://vercel-ip-logger.vercel.app/api/IPLogger")
-            .then(res => res.json())
-            .then((data) => {
-                let ip = data.message;
-                this.document.getElementById("ip").innerHTML = `your ip: ${ip}`;
-            })
-    </script>
-</head>
-
-<body>
-    <p id="ip">your ip:</p>
-</body>
-
-</html>
